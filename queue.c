@@ -2,7 +2,7 @@
 #include "job.h"
 #include <stdlib.h>
 
-Queue* CreateQueue() {
+Queue * CreateQueue() {
 	Queue * queue = (Queue*)malloc(sizeof(Queue));
 	if (!queue) {
 		return NULL;
@@ -21,14 +21,20 @@ void DestroyQueue(Queue * queue) {
 	queue = NULL;
 }
 void Enqueue(Queue * queue, Job * job) {
-	Job* temp = queue->first;
-	for (int i = 0; i < queue->size; i++) {
-		temp = temp->next;
+	Job* temp;
+	if (queue->size == 0) {
+		queue->first = job;
 	}
-	temp->next = job;
+	else {
+		temp = queue->first;
+		for (int i = 0; i < queue->size-1; i++) {
+			temp = temp->next;
+		}
+		temp->next = job;
+	}
 	queue->size++;
 }
-Job* Dequeue(Queue * queue) {
+Job * Dequeue(Queue * queue) {
 	Job* temp;
 	if (queue->size == 0) {
 		return NULL;
@@ -43,6 +49,3 @@ Job* Dequeue(Queue * queue) {
 int GetQueueSize(Queue * queue) {
 	return queue->size;
 }
-
-
-
