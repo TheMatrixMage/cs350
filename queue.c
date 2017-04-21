@@ -13,13 +13,16 @@ Queue * CreateQueue() {
 	return queue;
 }
 void DestroyQueue(Queue * queue) {
-	Job* temp = queue->first;
-	for (int i = 0; i < queue -> size; i++) {
-		DestroyJob(temp);
-		temp++;
+	if(queue != NULL){
+		Job* temp = queue->first;
+		int size = queue -> size;
+		for (int i = 0; i < size; i++) {
+			temp = Dequeue(queue);
+			DestroyJob(temp);
+
+		}
+		queue -> first = NULL;
 	}
-	free(queue);
-	queue -> first = NULL;
 }
 void Enqueue(Queue * queue, Job * job) {
 	Job* temp;
@@ -56,5 +59,8 @@ Job * Dequeue(Queue * queue) {
 	return temp;
 }
 int GetQueueSize(Queue * queue) {
-	return queue->size;
+	int fin;
+	if(queue == NULL) fin = -1;
+	else fin = queue->size;
+	return fin;
 }
