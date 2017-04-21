@@ -1,6 +1,7 @@
 #include "queue.h"
 #include "job.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 Queue * CreateQueue() {
 	Queue * queue = (Queue*)malloc(sizeof(Queue));
@@ -18,12 +19,16 @@ void DestroyQueue(Queue * queue) {
 		temp++;
 	}
 	free(queue);
-	queue = NULL;
+	queue -> first = NULL;
 }
 void Enqueue(Queue * queue, Job * job) {
 	Job* temp;
-	if (queue->size == 0) {
+	if(job == NULL){
+
+	}
+	else if (queue->size == 0) {
 		queue->first = job;
+		queue->size++;
 	}
 	else {
 		temp = queue->first;
@@ -31,8 +36,9 @@ void Enqueue(Queue * queue, Job * job) {
 			temp = temp->next;
 		}
 		temp->next = job;
+		queue->size++;
 	}
-	queue->size++;
+	
 }
 Job * Dequeue(Queue * queue) {
 	Job* temp;
@@ -42,9 +48,12 @@ Job * Dequeue(Queue * queue) {
 	temp = queue->first;
 	if (queue->size >= 2) {
 		queue->first = queue->first->next;
+		queue->size=queue->size-1;
 		return temp;
 	}
-	else return NULL;
+	queue->first = NULL;
+	queue->size= 0;
+	return temp;
 }
 int GetQueueSize(Queue * queue) {
 	return queue->size;
